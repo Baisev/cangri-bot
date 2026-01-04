@@ -1,6 +1,5 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('fs');
-const config = require('./config.json');
 
 const commands = [];
 const commandFiles = fs
@@ -12,21 +11,22 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '10' }).setToken(config.token);
+const rest = new REST({ version: '10' })
+  .setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
-    console.log('Registrando slash commands (GUILD)...');
+    console.log('📦 Registrando slash commands (GUILD)...');
 
     await rest.put(
       Routes.applicationGuildCommands(
-        config.clientId,
-        config.guildId
+        process.env.CLIENT_ID,
+        process.env.GUILD_ID
       ),
       { body: commands }
     );
 
-    console.log('Slash commands registrados en el servidor');
+    console.log('✅ Slash commands registrados en el servidor');
   } catch (error) {
     console.error(error);
   }

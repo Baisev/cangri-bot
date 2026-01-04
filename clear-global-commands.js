@@ -1,14 +1,11 @@
 const { REST, Routes } = require('discord.js');
-const config = require('./config.json');
-
-const rest = new REST({ version: '10' }).setToken(config.token);
-
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 (async () => {
   try {
     console.log('🧹 Borrando comandos globales...');
 
     await rest.put(
-      Routes.applicationCommands(config.clientId),
+      Routes.applicationCommands(process.env.CLIENT_ID),
       { body: [] }
     );
 
@@ -17,3 +14,4 @@ const rest = new REST({ version: '10' }).setToken(config.token);
     console.error(error);
   }
 })();
+
