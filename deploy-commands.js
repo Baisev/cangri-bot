@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { REST, Routes } = require('discord.js');
 const fs = require('fs');
 
@@ -11,12 +13,11 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '10' })
-  .setToken(process.env.DISCORD_TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
 (async () => {
   try {
-    console.log('📦 Registrando slash commands (GUILD)...');
+    console.log('🔄 Registrando slash commands (GUILD)...');
 
     await rest.put(
       Routes.applicationGuildCommands(
@@ -26,7 +27,7 @@ const rest = new REST({ version: '10' })
       { body: commands }
     );
 
-    console.log('✅ Slash commands registrados en el servidor');
+    console.log('✅ Slash commands registrados');
   } catch (error) {
     console.error(error);
   }
